@@ -1,15 +1,17 @@
+import os
+
 from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
-from db import db
 
 from resources.user import UserRegister
 from resources.item import ItemList, Item
 from resources.store import Store, StoreList
 from security import authenticate, identity
+from db import db
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_AUTH_URL_RULE'] = '/login'  # configure Authentication URL (must be before init jwt)
 app.secret_key = 'Mohammad'
